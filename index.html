@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/44f03c3036.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="styles/styles.css"/> 
+    <title>Steam Monopoly</title>
+</head>
+<body>
+    <div class="WelcomeWindow">
+        <h1>Welcome to <span>Steam Monopoly</span></h1>
+        <h2>This board game made on Monopoly classic base</h2>
+        <p>Press button below to have a nice time <br>in this fun-made game</p>
+      <button id="startButton"><i class="fa-solid fa-play"></i>Play</button>
+      <div class="gameCardsDecoration" id="cardsDecoration">
+        <img src="img/tile_card_images/img_5.jpg">
+        <img src="img/tile_card_images/img_25.jpg">
+        <img src="img/tile_card_images/img_39.jpg">
+        <img src="img/tile_card_images/img_11.jpg">
+        <img src="img/tile_card_images/img_16.jpg">
+        <img src="img/tile_card_images/img_23.jpg">
+        <img src="img/tile_card_images/img_1.jpg">
+        <img src="img/tile_card_images/img_19.jpg">
+      </div>
+    </div>
+    <div class="PlayerConfiguration">
+        <h1>Add or Edit players</h1>
+        <h3>Enter your name or if needed add more players</h3>
+        <br>
+        <div id="playerSlot_1" class="playerInputSlot"><input id="playerTextName_1" type="text" placeholder="Josh"><i class="fa-solid fa-user" id="playerIconConfiguration_1"></i></div>
+        <div id="playerSlot_2" class="playerInputSlot"><input id="playerTextName_2" type="text" placeholder="Greg"><i class="fa-solid fa-user" id="playerIconConfiguration_2"></i></div>
+        <div id="playerSlot_3" class="playerInputSlot"><input id="playerTextName_3" type="text" placeholder="Rohn"><i class="fa-solid fa-user" id="playerIconConfiguration_3"></i></div>
+        <div id="playerSlot_4" class="playerInputSlot"><input id="playerTextName_4" type="text" placeholder="Anna"><i class="fa-solid fa-user" id="playerIconConfiguration_4"></i></div>
+        <div id="playerSlot_5" class="playerInputSlot"><input id="playerTextName_5" type="text" placeholder="Koko"><i class="fa-solid fa-user" id="playerIconConfiguration_5"></i></div>
+        <div id="playerSlot_6" class="playerInputSlot"><input id="playerTextName_6" type="text" placeholder="Gwin"><i class="fa-solid fa-user" id="playerIconConfiguration_6"></i></div>
+        <div id="playerSlot_7" class="playerInputSlot"><input id="playerTextName_7" type="text" placeholder="Lana"><i class="fa-solid fa-user" id="playerIconConfiguration_7"></i></div>
+        <div id="playerSlot_8" class="playerInputSlot"><input id="playerTextName_8" type="text" placeholder="Bart"><i class="fa-solid fa-user" id="playerIconConfiguration_8"></i></div>
+        <button id="addPlayerButton">Add player</button>
+        <button id="removePlayerButton">Remove player</button>
+        <button id="prepareButton">Start!</button>
+    </div>
+    <div class="GameWindow">
+        <div class="UIButtons">
+            <ul>
+                <li id="BoardViewButton">3d<span class="fa-3d-view"></span></li>
+                <li id="BoardRotateRight"><i class="fa-solid fa-rotate-right"></i></li>
+                <li onclick = "playerMove()">Move debila</li>
+                <li onclick = "diceThrow()">Dice</li>
+            </ul>
+        </div>
+        <div class="PlayersWrapper">
+        </div>
+        <div class = "TileHoverInformation" id="TileInformation">
+            <div class="TileInformationImageBackground" id="TileInfImageBg"></div>
+            <div class="TileTextInformation">
+                <h1 id="TileNameH">Card Name</h1>
+                <h2 id="CardRarity">Card Rarity</h2>
+                <p id="CardDescription">Card Info</p>
+                <button id="SellCard">Sell</button>
+                <button id="OnBailCard">On bail</button>
+                <button id="UpgradeCard">Upgrade</button>
+            </div>
+            <img src="img/tile_card_images/img_5.jpg" id="TileInformationImage">
+        </div>
+        <div class="Table">
+                <div id="GameLog"></div>
+                <div id="UserMoveOptions">
+                </div>
+        </div>
+    </div>
+    <script src="scripts/mainScript.js"></script>
+    
+</body>
+</html>
