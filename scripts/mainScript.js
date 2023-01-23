@@ -1,5 +1,5 @@
     let playersNumber = 3;
-    let currentPlayer = 1;
+    let currentPlayer = 0; // 1 -> 0
     let bankMoney = 20580;
     let tile3dView = false;
     let dice_1 = 0;
@@ -19,6 +19,8 @@
     const tileInfo  = document.querySelector(".TileHoverInformation");
     const userMoveWindow = document.getElementById("UserMoveOptions");
     const gameLog = document.getElementById("GameLog");
+
+
 
     const deck = {
         name: "Steam Monopoly",
@@ -81,9 +83,11 @@
         ],
     };
 
+
+
     for(i in deck.tiles){
         deck.tiles[i].lvl = 1;
-        deck.tiles[i].owner = 0;
+        deck.tiles[i].owner = undefined;
         deck.tiles[i].rentPrice = [6];
         deck.tiles[rarityArrayTile[i]].rarity = deck.tilesRarity[rarityArrayIndex[i]];
     }
@@ -130,6 +134,8 @@
         {playerId: 6, money: 1500, name: "Lana", banned: false, ownedTiles: [], owningSaveCard: false, position: 0},
         {playerId: 7, money: 1500, name: "Bart", banned: false, ownedTiles: [], owningSaveCard: false, position: 0}
     ];
+
+
 
     const chanceCards = [
         {
@@ -451,109 +457,109 @@
         }
 
         function userChangePosition() {
-            if(players[currentPlayer-1].position >= 40){
-                players[currentPlayer-1].position = players[currentPlayer-1].position + currentUserDiceNumber - 40;
+            if(players[currentPlayer].position >= 40){
+                players[currentPlayer].position = players[currentPlayer].position + currentUserDiceNumber - 40;
             }else{
-                players[currentPlayer-1].position += currentUserDiceNumber;
+                players[currentPlayer].position += currentUserDiceNumber;
             }
         
         }
         function newCirclePass(){
-            players[currentPlayer-1].position = players[currentPlayer-1].position - 40; 
-            players[currentPlayer-1].money += 200;
-            gameLog.innerHTML += `${players[currentPlayer-1].name} passed start one more time and gets $200</br></br>`;
+            players[currentPlayer].position = players[currentPlayer].position - 40; 
+            players[currentPlayer].money += 200;
+            gameLog.innerHTML += `${players[currentPlayer].name} passed start one more time and gets $200</br></br>`;
             playerMovePosition();
         }
         function playerMovePosition(){
             
-            switch(players[currentPlayer-1].position){
+            switch(players[currentPlayer].position){
                 //----------------------------------------------------------------------------------------
-                case 0: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `6% 6%`;
+                case 0: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `6% 6%`;
                 break;
                 //-----------------------------------------------------------------------------------------
-                case 1: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `6% 17%`;
+                case 1: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `6% 17%`;
                 break;
-                case 2: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `6% 25%`;
+                case 2: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `6% 25%`;
                 break;
-                case 3: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `6% 33%`;
+                case 3: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `6% 33%`;
                 break;
-                case 4: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `6% 42%`;
+                case 4: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `6% 42%`;
                 break;
-                case 5: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `6% 51%`;
+                case 5: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `6% 51%`;
                 break;
-                case 6: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `6% 58%`;
+                case 6: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `6% 58%`;
                 break;
-                case 7: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `6% 65%`;
+                case 7: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `6% 65%`;
                 break;
-                case 8: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `6% 74%`;
+                case 8: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `6% 74%`;
                 break;
-                case 9: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `6% 82%`;
+                case 9: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `6% 82%`;
                 break;
                 //------------------------------------------------------------------------------------------
-                case 10: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `6% 94%`;
+                case 10: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `6% 94%`;
                 break;
                 // -----------------------------------------------------------------------------------------
-                case 11: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `17% 94%`;
+                case 11: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `17% 94%`;
                 break;
-                case 12: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `25% 94%`;
+                case 12: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `25% 94%`;
                 break;
-                case 13: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `33% 94% `;
+                case 13: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `33% 94% `;
                 break;
-                case 14: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `42% 94% `;
+                case 14: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `42% 94% `;
                 break;
-                case 15: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `51% 94% `;
+                case 15: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `51% 94% `;
                 break;
-                case 16: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `58% 94% `;
+                case 16: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `58% 94% `;
                 break;
-                case 17: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `65% 94% `;
+                case 17: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `65% 94% `;
                 break;
-                case 18: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `74% 94% `;
+                case 18: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `74% 94% `;
                 break;
-                case 19: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `82% 94% `;
-                break;
-                //--------------------------------------------------------------------------------------------
-                case 20: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `94% 94% `;
+                case 19: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `82% 94% `;
                 break;
                 //--------------------------------------------------------------------------------------------
-                case 21: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `94% 82% `;
+                case 20: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `94% 94% `;
                 break;
-                case 22: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `94% 74% `;
+                //--------------------------------------------------------------------------------------------
+                case 21: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `94% 82% `;
                 break;
-                case 23: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `94% 65% `;
+                case 22: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `94% 74% `;
                 break;
-                case 24: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `94% 58% `;
+                case 23: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `94% 65% `;
                 break;
-                case 25: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `94% 51% `;
+                case 24: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `94% 58% `;
                 break;
-                case 26: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `94% 42% `;
+                case 25: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `94% 51% `;
                 break;
-                case 27: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `94% 33% `;
+                case 26: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `94% 42% `;
                 break;
-                case 28: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `94% 25% `;
+                case 27: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `94% 33% `;
                 break;
-                case 29: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `94% 17% `;
+                case 28: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `94% 25% `;
+                break;
+                case 29: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `94% 17% `;
                 break;
                 //-------------------------------------------------------------------------------------------
-                case 30: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `94% 6% `;
+                case 30: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `94% 6% `;
                 break;
                 //-------------------------------------------------------------------------------------------
-                case 31: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `82% 6% `;
+                case 31: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `82% 6% `;
                 break;
-                case 32: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `74% 6% `;
+                case 32: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `74% 6% `;
                 break;
-                case 33: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `65% 6%`;
+                case 33: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `65% 6%`;
                 break;
-                case 34: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `58% 6%`;
+                case 34: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `58% 6%`;
                 break;
-                case 35: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `51% 6%`;
+                case 35: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `51% 6%`;
                 break;
-                case 36: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `42% 6%`;
+                case 36: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `42% 6%`;
                 break;
-                case 37: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `33% 6%`;
+                case 37: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `33% 6%`;
                 break;
-                case 38: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `25% 6%`;
+                case 38: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `25% 6%`;
                 break;
-                case 39: document.getElementById(`playerCircle_${currentPlayer-1}`).style.margin = `17% 6%`;
+                case 39: document.getElementById(`playerCircle_${currentPlayer}`).style.margin = `17% 6%`;
                 break;
                 default: newCirclePass();
                 break;
@@ -564,22 +570,23 @@
         }
         function gameLogRefresh() {
 
-            gameLog.innerHTML += `Player <span style="color:${playerColorsList[currentPlayer-1]}">${players[currentPlayer-1].name}</span>
+            gameLog.innerHTML += `Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span>
             threw dice -> dice1: ${dice_1}, 
             dice2: ${dice_2}, 
             dice sum: ${currentUserDiceNumber}</br>`;
 
-            gameLog.innerHTML += (`<span style="color:${playerColorsList[currentPlayer-1]}">${players[currentPlayer-1].name}</span> is going to tile: ${deck.tiles[players[currentPlayer-1].position].tileName} on ${players[currentPlayer-1].position} position</br></br>`);
+            gameLog.innerHTML += (`<span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> is going to tile: ${deck.tiles[players[currentPlayer].position].tileName} on ${players[currentPlayer].position} position</br></br>`);
             gameLog.scrollTo(0, gameLog.scrollHeight);
 
         }
         function nextPlayer() {
-            if(currentPlayer >= playersNumber){
-                currentPlayer = 1;
+            if(currentPlayer >= playersNumber - 1){ 
+                currentPlayer = 0;
             }else{
                 currentPlayer++;
             }
             rollDiceWindow();
+            refrershFullUI();
         }
 
         function playerMove() {
@@ -588,19 +595,19 @@
             playerMovePosition();
             checkTile();
             gameLogRefresh();
-            refrershFullUI();
         }
         
         
 
 
         function buyTileFunction(){
-            if(players[currentPlayer-1].money >= deck.tiles[players[currentPlayer-1].position].price){
-                players[currentPlayer-1].money -= deck.tiles[players[currentPlayer-1].position].price;
-                deck.tiles[players[currentPlayer-1].position].owner = players[currentPlayer-1].playerId + 1;
-                players[currentPlayer-1].ownedTiles.push(deck.tiles[players[currentPlayer-1].position].id);
-                gameLog.innerHTML += `${players[currentPlayer-1].name} owns tile ${deck.tiles[players[currentPlayer-1].position].tileName} owner id ${deck.tiles[players[currentPlayer-1].position].owner}`;
-                document.getElementById(`boardTile_${players[currentPlayer-1].position}`).style.border = `5px dashed ${playerColorsList[currentPlayer-1]}`;
+            let currentTile = deck.tiles[players[currentPlayer].position];
+            if(players[currentPlayer].money >= currentTile.price){
+                players[currentPlayer].money -= currentTile.price;
+                currentTile.owner = players[currentPlayer].playerId + 1;
+                players[currentPlayer].ownedTiles.push(currentTile.id);
+                gameLog.innerHTML += `${players[currentPlayer].name} owns tile ${currentTile.tileName} owner id ${currentTile.owner}`;
+                document.getElementById(`boardTile_${players[currentPlayer].position}`).style.border = `5px dashed ${playerColorsList[currentPlayer]}`;
                 nextPlayer();
             }else{
                 gameLog.innerHTML += "not enough money";
@@ -609,15 +616,18 @@
         }
 
         function payRentFunction(){
-            if(players[currentPlayer-1].position != 12 || players[currentPlayer-1].position != 28){
-                if(players[currentPlayer-1].money >= deck.tiles[players[currentPlayer-1].position].rentPrice[deck.tiles[players[currentPlayer-1].position].lvl - 1]){
-                    players[currentPlayer-1].money -= deck.tiles[players[currentPlayer-1].position].rentPrice[deck.tiles[players[currentPlayer-1].position].lvl - 1];
-                    players[deck.tiles[players[currentPlayer-1].position].owner-1].money += deck.tiles[players[currentPlayer-1].position].rentPrice[deck.tiles[players[currentPlayer-1].position].lvl - 1];
+            let currentTile = deck.tiles[players[currentPlayer].position];
+            if(players[currentPlayer].position != 12 || players[currentPlayer].position != 28){
+
+                if(players[currentPlayer].money >= currentTile.rentPrice[currentTile.lvl - 1]){
+
+                    players[currentPlayer].money -= currentTile.rentPrice[currentTile.lvl - 1];
+                    players[currentTile.owner-1].money += currentTile.rentPrice[currentTile.lvl - 1];
                     
-                    gameLog.innerHTML += `${players[currentPlayer-1].name} obligated 
-                    to pay rent ($ ${deck.tiles[players[currentPlayer-1].position].rentPrice[deck.tiles[players[currentPlayer-1].position].lvl - 1]}) 
-                    for tile ${deck.tiles[players[currentPlayer-1].position].tileName}
-                    to player ${players[deck.tiles[players[currentPlayer-1].position].owner-1].name}</br></br>`;
+                    gameLog.innerHTML += `${players[currentPlayer].name} obligated 
+                    to pay rent ($ ${currentTile.rentPrice[currentTile.lvl - 1]}) 
+                    for tile ${currentTile.tileName}
+                    to player ${players[currentTile.owner-1].name}</br></br>`;
 
                     nextPlayer();
                 }else{
@@ -626,14 +636,14 @@
                 }
             }else{
                 let specialRentPrice = (Math.floor(Math.random()*6)+1)*6;
-                if(players[currentPlayer-1].money >= specialRentPrice){
-                    players[currentPlayer-1].money -= specialRentPrice;
-                    players[deck.tiles[players[currentPlayer-1].position].owner-1].money += specialRentPrice;
+                if(players[currentPlayer].money >= specialRentPrice){
+                    players[currentPlayer].money -= specialRentPrice;
+                    players[currentTile.owner-1].money += specialRentPrice;
                 
-                    gameLog.innerHTML += `${players[currentPlayer-1].name} obligated 
+                    gameLog.innerHTML += `${players[currentPlayer].name} obligated 
                     to pay rent ($ ${specialRentPrice}) 
-                    for tile ${deck.tiles[players[currentPlayer-1].position].tileName}
-                    to player ${players[deck.tiles[players[currentPlayer-1].position].owner-1].name}</br></br>`;
+                    for tile ${currentTile.tileName}
+                    to player ${players[currentTile.owner-1].name}</br></br>`;
 
                     nextPlayer();
                 }else{
@@ -645,7 +655,7 @@
 
         function incomeTaxWindow() {
             userMoveWindow.innerHTML = `
-            <p>Player <span style="color:${playerColorsList[currentPlayer-1]}">${players[currentPlayer-1].name}</span> stand on Income Tax Tile</p>
+            <p>Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> stand on Income Tax Tile</p>
             <p>Pay $200!</p>
             <div class="UserMoveOptions-buttons-wrapper">
             <button onclick="incomeTaxFunction()">Pay $200</button>
@@ -654,11 +664,11 @@
         }
 
         function incomeTaxFunction(){
-            if(players[currentPlayer-1].money >= 200){
-                players[currentPlayer-1].money -= 200;
-                gameLog.innerHTML += `Player ${players[currentPlayer-1].name} have payed income tax ($200)</br></br>`;
+            if(players[currentPlayer].money >= 200){
+                players[currentPlayer].money -= 200;
+                gameLog.innerHTML += `Player ${players[currentPlayer].name} have payed income tax ($200)</br></br>`;
                 nextPlayer();
-            }else if(players[currentPlayer-1].ownedTiles.length != 0){
+            }else if(players[currentPlayer].ownedTiles.length != 0){
                 gameLog.innerHTML += "you have tile to sell, so you can pay income tax</br></br>";
                 nextPlayer();
             }else{
@@ -669,15 +679,13 @@
 
 
         function checkTile() {
-            if(deck.tiles[players[currentPlayer-1].position].buyable == true && deck.tiles[players[currentPlayer-1].position].owner == 0){
+            let currentTile = deck.tiles[players[currentPlayer].position];
+            if(currentTile.buyable == true && currentTile.owner == undefined){
                 buyTileWindow();//------------------------------- If player stands on a new tile (can buy or place it on an auction)
-            }else if(deck.tiles[players[currentPlayer-1].position].buyable == true 
-                && deck.tiles[players[currentPlayer-1].position].owner > 0 
-                && deck.tiles[players[currentPlayer-1].position].buyable == true 
-                && deck.tiles[players[currentPlayer-1].position].owner !== players[currentPlayer-1].playerId + 1){
+            }else if(currentTile.buyable == true && currentTile.owner > 0 && currentTile.buyable == true && currentTile.owner !== players[currentPlayer].playerId + 1){
                     payRentWindow();//------------------------------- If player stands on a already bought tile (should pay rent or if not enough money sell his tiles)
-            }else if(!deck.tiles[players[currentPlayer-1].position].buyable){
-                switch(players[currentPlayer-1].position){
+            }else if(!currentTile.buyable){
+                switch(players[currentPlayer].position){
                     case 0:;
                     break;
                     case 10: alert("just visiting");nextPlayer();
@@ -693,8 +701,8 @@
                     case 4: incomeTaxWindow();
                     break;
                 }
-            }else if(deck.tiles[players[currentPlayer-1].position].buyable == true && 
-                deck.tiles[players[currentPlayer-1].position].owner == players[currentPlayer-1].playerId + 1){
+            }else if(currentTile.buyable == true && 
+                currentTile.owner == players[currentPlayer].playerId + 1){
                     gameLog.innerHTML += "this is your tile you can upgrade it or sell</br></br>";//--------If player stands on his own tile (Can sell, upgrade, trade it)
                 nextPlayer();
             }else {
@@ -705,7 +713,7 @@
 
         function rollDiceWindow() {
             userMoveWindow.innerHTML = `
-            <p>Player <span style="color:${playerColorsList[currentPlayer-1]}">${players[currentPlayer-1].name}</span> time to roll dice!</p>
+            <p>Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> time to roll dice!</p>
             <div class="UserMoveOptions-buttons-wrapper">
             <button onclick="playerMove()">Roll dice!</button>
             </div>
@@ -714,7 +722,7 @@
 
         function buyTileWindow() {
             userMoveWindow.innerHTML = `
-                <p>Player <span style="color:${playerColorsList[currentPlayer-1]}">${players[currentPlayer-1].name}</span> stands on tile ${deck.tiles[players[currentPlayer-1].position].tileName}</p>
+                <p>Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> stands on tile ${deck.tiles[players[currentPlayer].position].tileName}</p>
                 <div class="UserMoveOptions-buttons-wrapper">
                 <button onclick="buyTileFunction()">Buy</button>
                 <button onclick="onAuctionWindow()">Auction</button>
@@ -724,9 +732,9 @@
 
         function payRentWindow() {
             userMoveWindow.innerHTML = `
-            <p>Player <span style="color:${playerColorsList[currentPlayer-1]}">${players[currentPlayer-1].name}</span> stands on 
-            <span style="color:${playerColorsList[deck.tiles[players[currentPlayer-1].position].owner-1]}">${players[deck.tiles[players[currentPlayer-1].position].owner-1].name}'s</span>
-            tile. This player is obligated to pay rent (${deck.tiles[players[currentPlayer-1].position].rentPrice[deck.tiles[players[currentPlayer-1].position].lvl - 1]}) for this tile.
+            <p>Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> stands on 
+            <span style="color:${playerColorsList[deck.tiles[players[currentPlayer].position].owner-1]}">${players[deck.tiles[players[currentPlayer].position].owner-1].name}'s</span>
+            tile. This player is obligated to pay rent (${deck.tiles[players[currentPlayer].position].rentPrice[deck.tiles[players[currentPlayer].position].lvl - 1]}) for this tile.
             </p>
             <div class="UserMoveOptions-buttons-wrapper"><button onclick="payRentFunction()">Pay rent</button></div>
             `;
