@@ -1,5 +1,5 @@
 # git-steam-monopoly
-Steam Monopoly
+# Steam Monopoly
 Hello there my friend!
 
 ////////////////////////////////////
@@ -15,5 +15,4 @@ Game written on htmls/css/js (Started desining/developing 5.01.23)
 //////////////////////////////////
 
 Just download zip-archive
-
-Good luck and have fun with your friends!
+# Good luck and have fun with your friends!
