@@ -20,8 +20,6 @@
     const userMoveWindow = document.getElementById("UserMoveOptions");
     const gameLog = document.getElementById("GameLog");
 
-
-
     const deck = {
         name: "Steam Monopoly",
         tilesNumber: 40,
@@ -83,8 +81,6 @@
         ],
     };
 
-
-
     for(i in deck.tiles){
         deck.tiles[i].lvl = 1;
         deck.tiles[i].owner = undefined;
@@ -135,16 +131,13 @@
         {playerId: 7, money: 1500, name: "Bart", banned: false, ownedTiles: [], owningSaveCard: false, position: 0}
     ];
 
+    function ChanceCard(description, purpose){
+        this.description = description;
+        this.purpose = purpose;
+    }
 
-
-    const chanceCards = [
-        {
-            chanceCardId: 0, 
-            chanceCardText: "Advance to Boardwalk", 
-            chanceCardPurpose: function(){players[currentPlayer].money -= 20},
-
-        },
-    ];
+    const chanceCard = [];
+    chanceCard[0] = new chanceCard("Advance to Red Dead Redemption 2", function(){});
 
 
     table.addEventListener('click', (e) => {
@@ -259,7 +252,6 @@
             setTimeout(generateTable, 1000);
         }
         prepareButton.addEventListener("click", prepareGame);
-
 
         function generateTable() {
             const tbl = document.createElement("table");
@@ -406,7 +398,6 @@
             createPlayers();
         }    
 
-          
         function createPlayers(){
             for(let i = 0; i < playersNumber; i++){
                 document.querySelector(".PlayersWrapper").innerHTML += `
@@ -429,8 +420,6 @@
             
         }
 
-        
-
         let diceThrow = () => {
             dice_1 = Math.floor(Math.random()*6)+1;
             dice_2 = Math.floor(Math.random()*6)+1;
@@ -438,8 +427,6 @@
             return currentUserDiceNumber;
             
         }
-
-        
 
         function spawnPlayers() {
             for(let i = 0; i < playersNumber; i++){
@@ -571,9 +558,7 @@
         function gameLogRefresh() {
 
             gameLog.innerHTML += `Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span>
-            threw dice -> dice1: ${dice_1}, 
-            dice2: ${dice_2}, 
-            dice sum: ${currentUserDiceNumber}</br>`;
+            rolled dice ${dice_1} : ${dice_2}</br>`;
 
             gameLog.innerHTML += (`<span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> is going to tile: ${deck.tiles[players[currentPlayer].position].tileName} on ${players[currentPlayer].position} position</br></br>`);
             gameLog.scrollTo(0, gameLog.scrollHeight);
@@ -724,7 +709,8 @@
             userMoveWindow.innerHTML = `
                 <p>Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> stands on tile ${deck.tiles[players[currentPlayer].position].tileName}</p>
                 <div class="UserMoveOptions-buttons-wrapper">
-                <button onclick="buyTileFunction()">Buy</button>
+                <button onclick="buyTileFunction()">Buy ($ ${deck.tiles[players[currentPlayer].position].price})</button>
+                or
                 <button onclick="onAuctionWindow()">Auction</button>
                 </div>
                 `;
