@@ -136,8 +136,145 @@
         this.purpose = purpose;
     }
 
+    function CommunityChestCard(description, purpose){
+        this.description = description;
+        this.purpose = purpose;
+    }
+
     const chanceCard = [];
-    chanceCard[0] = new chanceCard("Advance to Red Dead Redemption 2", function(){});
+    const communityChestCard = [];
+
+    chanceCard[0] = new ChanceCard("Advance to Red Dead Redemption 2", function(){
+        players[currentPlayer].position = 39; 
+    });
+
+    chanceCard[1] = new ChanceCard("Advance to Start (Collect $200)", function(){
+        players[currentPlayer].position = 40; 
+    });
+
+    chanceCard[2] = new ChanceCard("Advance to S.T.A.L.K.E.R. 2: Heart of Chornobyl. If you pass Start, collect $200", function(){
+        (players[currentPlayer].position > 24) ? players[currentPlayer].money += 200 : 0 ;
+        players[currentPlayer].position = 24;  
+    });
+
+    chanceCard[3] = new ChanceCard("Advance to Sea of Thieves. If you pass Start, collect $200", function(){
+        (players[currentPlayer].position > 11) ? players[currentPlayer].money += 200 : 0 ;
+        players[currentPlayer].position = 11;  
+    });
+
+    chanceCard[4] = new ChanceCard(`Advance to the nearest SoulsLike. If unowned, you may buy it from the Steam. If owned, pay wonder the rental to which they are otherwise entitled`, function(){
+                if(players[currentPlayer].position === 7){
+                    players[currentPlayer].position = 5;
+                }else if(players[currentPlayer].position === 22){
+                    players[currentPlayer].position = 25;
+                }else if(players[currentPlayer].position === 36){
+                    players[currentPlayer].position = 35;
+                }   
+    });
+
+    chanceCard[5] = new ChanceCard(`Advance token to nearest Utility. If unowned, you may buy it from the Steam. If owned, throw dice and pay owner a rent.`, function(){
+            if(players[currentPlayer].position === 7){
+                players[currentPlayer].position = 12;
+            }else if(players[currentPlayer].position === 22){
+                players[currentPlayer].position = 28;
+            }else if(players[currentPlayer].position === 36){
+                players[currentPlayer].position = 28;
+            } 
+    });
+
+    chanceCard[6] = new ChanceCard(`Steam pays you dividend of $50`, function(){ 
+        players[currentPlayer].money += 50; 
+    });
+
+    chanceCard[7] = new ChanceCard(`Get Unbanned Free`, function(){
+        players[currentPlayer].owningSaveCard = true; 
+    });
+
+    chanceCard[8] = new ChanceCard(`Go Back 3 Spaces`, function(){
+        players[currentPlayer].position -= 3; 
+    });
+
+    chanceCard[9] = new ChanceCard(`Get VACBAN. Do not pass Start, do not collect $200`, function(){
+        players[currentPlayer].banned = true;
+        players[currentPlayer].position = 10; 
+    });
+
+    chanceCard[10] = new ChanceCard(`Take a trip to Dark Souls 3. If you pass Start, collect $200`, function(){
+        (players[currentPlayer].position > 5) ? players[currentPlayer].money += 200 : 0 ;
+        players[currentPlayer].position = 5; 
+    });
+
+    chanceCard[11] = new ChanceCard(`You have been elected Chairman of the Board. Pay each player $50`, function(){
+        for(let i in players){
+            if(i != players[currentPlayer].playerId){
+                players[i].money += 50;
+            }else{
+                players[i].money -= 50 * (playersNumber - 1); // mistaken
+            }
+        }
+    });
+
+    chanceCard[12] = new ChanceCard(`Your building loan matures. Collect $150`, function(){
+        players[currentPlayer].money += 150; 
+    });
+
+    
+
+    communityChestCard[0] = new ChanceCard("Advance to Start (Collect $200)", function(){
+        players[currentPlayer].position = 40; 
+    });
+
+    communityChestCard[1] = new ChanceCard("OMG You lucky one, just got a knife from CS:GO case. <b>Collect $200 if you own CS:GO tile</b>", function(){
+        (players[currentPlayer].ownedTiles.includes(1)) ? players[currentPlayer].money += 200 : 0; 
+    });
+
+    communityChestCard[2] = new ChanceCard("You just got scammed :( .Pay -$50 from balance", function(){
+        players[currentPlayer].money -= 50;  
+    });
+
+    communityChestCard[3] = new ChanceCard("From sale of stock you get $50", function(){
+        players[currentPlayer].money += 50;    
+    });
+
+    communityChestCard[4] = new ChanceCard(`Holiday fund matures. Receive $100`, function(){
+        players[currentPlayer].money += 100;    
+    });
+
+    communityChestCard[5] = new ChanceCard(`Income tax refund. Collect $20`, function(){
+        players[currentPlayer].money += 20;  
+    });
+
+    communityChestCard[6] = new ChanceCard(`Steam pays you dividend of $50`, function(){ 
+        players[currentPlayer].money += 50; 
+    });
+
+    communityChestCard[7] = new ChanceCard(`It is your birthday. Collect $10 from every player`, function(){
+        for(let i in players){
+            if(i != players[currentPlayer].playerId){
+                players[i].money -= 10;
+            }else{
+                players[i].money += 10 * (playersNumber - 1);
+            }
+        }
+    });
+
+    communityChestCard[8] = new ChanceCard(`Get income from donates in your game. Collect $100`, function(){
+        players[currentPlayer].money += 100; 
+    });
+
+    communityChestCard[9] = new ChanceCard(`Register as a partner at Steamworks. Pay $100`, function(){
+        players[currentPlayer].money -= 100;  
+    });
+
+
+    for(let i in chanceCard){
+        chanceCard[i].id = i;
+    }
+    for(let i in communityChestCard){
+        communityChestCard[i].id = i;
+    }
+
+
 
 
     table.addEventListener('click', (e) => {
@@ -664,6 +801,7 @@
 
 
         function checkTile() {
+            gameLog.innerHTML += "Function Checked tile!!!</br></br>";
             let currentTile = deck.tiles[players[currentPlayer].position];
             if(currentTile.buyable == true && currentTile.owner == undefined){
                 buyTileWindow();//------------------------------- If player stands on a new tile (can buy or place it on an auction)
@@ -679,9 +817,9 @@
                     break;
                     case 30: alert("go to jail");nextPlayer();
                     break;
-                    case 2: case 17: case 33: alert("community chest");nextPlayer();
+                    case 2: case 17: case 33: communityChestCardWindow();
                     break;
-                    case 7: case 22: case 36: alert("chance");nextPlayer();
+                    case 7: case 22: case 36: chanceCardWindow();
                     break;
                     case 4: incomeTaxWindow();
                     break;
@@ -733,26 +871,22 @@
             <div class="UserMoveOptions-buttons-wrapper"><button onclick="test()">Buy</button><button>Auction</button></div>
             `;
         }
-
+        let randomChanceCard;
         function chanceCardWindow() {
+            randomChanceCard = Math.floor(Math.random()*chanceCard.length);
             userMoveWindow.innerHTML = `
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-            laboris nisi ut aliquip ex ea commodo consequat.  
-            </p>
-            <div class="UserMoveOptions-buttons-wrapper"><button onclick="test()">Buy</button><button>Auction</button></div>
+            <p><span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> got ${chanceCard[randomChanceCard].id} Chance Card</p>
+            <p>${chanceCard[randomChanceCard].description}</p>
+            <div class="UserMoveOptions-buttons-wrapper"><button onclick="ChanceCardFunction(randomChanceCard)">Ok</button></div>
             `;
         }
-
+        let randomCommunityChestCard;
         function communityChestCardWindow() {
+            randomCommunityChestCard = Math.floor(Math.random()*communityChestCard.length);
             userMoveWindow.innerHTML = `
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-            laboris nisi ut aliquip ex ea commodo consequat.  
-            </p>
-            <div class="UserMoveOptions-buttons-wrapper"><button onclick="test()">Buy</button><button>Auction</button></div>
+            <p><span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> got ${chanceCard[randomChanceCard].id} Community Chest Card</p>
+            <p>${communityChestCard[randomCommunityChestCard].description}</p>
+            <div class="UserMoveOptions-buttons-wrapper"><button onclick="CommunityChestCardFunction(randomCommunityChestCard)">Ok</button></div>
             `;
         }
 
@@ -784,3 +918,23 @@
             }
         }
 
+        function ChanceCardFunction(randomChanceCard) {
+            chanceCard[randomChanceCard].purpose();
+            playerMovePosition();
+            gameLogRefresh();
+            if(randomChanceCard === 6 || randomChanceCard === 7 || randomChanceCard === 11 || randomChanceCard === 12){
+                nextPlayer();
+            }else{
+                setTimeout(checkTile, 100);
+            }
+            
+
+            //nextPlayer();
+        }
+
+        function CommunityChestCardFunction(randomCommunityChestCard) {
+            communityChestCard[randomCommunityChestCard].purpose();
+            playerMovePosition();
+            gameLogRefresh();
+            nextPlayer();
+        }
