@@ -1,3 +1,4 @@
+    alert("changes");
     let playersNumber = 3;
     let currentPlayer = 0; // 1 -> 0
     let bankMoney = 20580;
