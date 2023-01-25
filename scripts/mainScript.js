@@ -218,6 +218,8 @@
         players[currentPlayer].money += 150; 
     });
 
+    
+
     communityChestCard[0] = new ChanceCard("Advance to Start (Collect $200)", function(){
         players[currentPlayer].position = 40; 
     });
@@ -284,7 +286,8 @@
     BoardRotateRight.addEventListener('click', function(){
         boardRotationAngle += 90; 
         document.querySelector(".Table").style.transform = `translate(-50%, -50%) rotateX(0deg) rotateY(0deg) rotateZ(${boardRotationAngle}deg)`;
-        document.getElementById("GameLog").style.transform = `translate(-50%, -50%) rotateX(0deg) rotateY(0deg) rotateZ(${-boardRotationAngle}deg)`;
+        document.getElementById("UserMoveOptions").style.transform = `translate(-50%, -50%) rotateX(0deg) rotateY(0deg) rotateZ(${-boardRotationAngle}deg)`;
+        //document.getElementById("GameLog").style.transform = `translate(-50%, -50%) rotateX(0deg) rotateY(0deg) rotateZ(${-boardRotationAngle}deg)`;
     });
 
     function displayTileInformation(){
@@ -312,6 +315,10 @@
         tileInformationImage.setAttribute("src", `img/tile_card_images/img_${clickedTile}.jpg`);
         tileInformationImage.style.border = "none";
         tileInformationImage.style.borderBottom = `5px solid ${deck.tiles[clickedTile].rarity.rarityColor}`;
+    }
+
+    function hideTileCardInfo(){
+        document.getElementById("TileInformation").style.display = "none";
     }
 
     for (let i = playerColorsList.length - 1; i > 0; i--) {
@@ -556,9 +563,9 @@
         }
 
         let diceThrow = () => {
-            dice_1 = Math.floor(Math.random()*6)+1;
-            dice_2 = Math.floor(Math.random()*6)+1;
-            currentUserDiceNumber = dice_1 + dice_2;
+            dice1 = Math.floor(Math.random()*6)+1;
+            dice2 = Math.floor(Math.random()*6)+1;
+            currentUserDiceNumber = dice1 + dice2;
             return currentUserDiceNumber;
             
         }
@@ -695,7 +702,7 @@
 
         function gameLogRefresh() {
             gameLog.innerHTML += `Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span>
-            rolled dice ${dice_1} : ${dice_2}</br>`;
+            rolled dice ${dice1} : ${dice2}</br>`;
             gameLog.innerHTML += (`<span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> is going to tile: ${deck.tiles[players[currentPlayer].position].tileName} on ${players[currentPlayer].position} position</br></br>`);
             gameLog.scrollTo(0, gameLog.scrollHeight);
         }
@@ -710,11 +717,20 @@
         }
 
         function playerMove() {
+            userMoveWindow.style.display = "none";
+            document.querySelector(".DiceWrapper").style.display = `flex`;
+            setTimeout(function(){
             diceThrow();
-            userChangePosition();
+
+            diceAnimation();
+
+            setTimeout(function(){
+                userChangePosition();
             playerMovePosition();
             checkTile();
             gameLogRefresh();
+            }, 1000);
+        }, 1000);
         }
         
         function buyTileFunction(){
@@ -770,8 +786,12 @@
                     to player ${players[currentTile.owner-1].name}</br></br>`;
 
                     nextPlayer();
-                }else{
-                    gameLog.innerHTML += "not enough money</br></br>";
+                }else if(players[currentPlayer].money <= specialRentPrice && players[currentPlayer].ownedTiles){
+                    alert("You don't have enough money, but you have tiles to sell");
+                    nextPlayer();
+                }else if(players[currentPlayer].money <= specialRentPrice && !players[currentPlayer].ownedTiles){
+                    alert("You don't have enough money, you lose!");
+                    playerLose();
                     nextPlayer();
                 }
             }
@@ -981,3 +1001,51 @@
             gameLogRefresh();
             nextPlayer();
         }
+
+
+        let x, y;
+
+        let diceAnimation = () => {
+            switch (dice1) {
+            case 1:
+                x = 720;
+                y = 810;
+                break;
+            case 6:
+                x = 720;
+                y = 990;
+                break;
+            default:
+                x = 720 + (6 - dice1) * 90;
+                y = 900;
+                break;
+            }
+            document.getElementById("dice_1").style.transform = `translateZ(-100px) rotateY(${x}deg) rotateX(${y}deg)`;
+            
+
+            switch (dice2) {
+                case 1:
+                x = 720;
+                y = 810;
+                break;
+                case 6:
+                x = 720;
+                y = 990;
+                break;
+                default:
+                x = 720 + (6 - dice2) * 90;
+                y = 900;
+                break;
+            }
+            document.getElementById("dice_2").style.transform = `translateZ(-100px) rotateY(${x}deg) rotateX(${y}deg)`;
+            setTimeout(function(){
+                document.querySelector(".DiceWrapper").style.display = `none`;
+                userMoveWindow.style.display = "flex";
+                
+            }, 1200);
+
+            setTimeout(function(){
+                document.getElementById("dice_1").style.transform = `translateZ(-100px) rotateY(-45deg) rotateX(-45deg)`;
+                document.getElementById("dice_2").style.transform = `translateZ(-100px) rotateY(-45deg) rotateX(-45deg)`;
+            }, 1500);
+        };

@@ -47,7 +47,7 @@
                 <li id="BoardViewButton">3d<span class="fa-3d-view"></span></li>
                 <li id="BoardRotateRight"><i class="fa-solid fa-rotate-right"></i></li>
                 <li onclick = "playerMove()">Move debila</li>
-                <li onclick = "diceThrow()">Dice</li>
+                <li onclick = "hideTileCardInfo()">X</li>
             </ul>
         </div>
         <div class="PlayersWrapper">
@@ -64,8 +64,116 @@
             <img src="img/tile_card_images/img_5.jpg" id="TileInformationImage">
         </div>
         <div class="Table">
-            <div class="diceWrapper">
-                <div>dice 1</div> <div>dice 2</div>
+            <div class="DiceWrapper">
+                <h2>Rolling dise, wait a sec...</h2>
+                <!-- -------------------------------------------------------------------------------------- -->
+                <div class="panel">
+                    <div class="dice" id="dice_1">
+                      <div class="side one">
+                        <span class="dot"></span>
+                      </div>
+                      <div class="side two">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                      </div>
+                      <div class="side three">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                      </div>
+                      <div class="side four">
+                        <div class="kolona">
+                          <span class="dot"></span>
+                          <span class="dot"></span>
+                        </div>
+                        <div class="kolona">
+                          <span class="dot"></span>
+                          <span class="dot"></span>
+                        </div>
+                      </div>
+                      <div class="side five">
+                        <div class="kolona">
+                          <span class="dot"></span>
+                          <span class="dot"></span>
+                        </div>
+                        <div class="kolona">
+                          <span class="dot"></span>
+                        </div>
+                        <div class="kolona">
+                          <span class="dot"></span>
+                          <span class="dot"></span>
+                        </div>
+                      </div>
+                      <div class="side six">
+                        <div class="kolona">
+                          <span class="dot"></span>
+                          <span class="dot"></span>
+                        </div>
+                        <div class="kolona">
+                          <span class="dot"></span>
+                          <span class="dot"></span>
+                        </div>
+                        <div class="kolona">
+                          <span class="dot"></span>
+                          <span class="dot"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              <!-- -------------------------------------------------------------------------------------- -->
+              <div class="panel">
+                <div class="dice" id="dice_2">
+                  <div class="side one">
+                    <span class="dot"></span>
+                  </div>
+                  <div class="side two">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                  </div>
+                  <div class="side three">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                  </div>
+                  <div class="side four">
+                    <div class="kolona">
+                      <span class="dot"></span>
+                      <span class="dot"></span>
+                    </div>
+                    <div class="kolona">
+                      <span class="dot"></span>
+                      <span class="dot"></span>
+                    </div>
+                  </div>
+                  <div class="side five">
+                    <div class="kolona">
+                      <span class="dot"></span>
+                      <span class="dot"></span>
+                    </div>
+                    <div class="kolona">
+                      <span class="dot"></span>
+                    </div>
+                    <div class="kolona">
+                      <span class="dot"></span>
+                      <span class="dot"></span>
+                    </div>
+                  </div>
+                  <div class="side six">
+                    <div class="kolona">
+                      <span class="dot"></span>
+                      <span class="dot"></span>
+                    </div>
+                    <div class="kolona">
+                      <span class="dot"></span>
+                      <span class="dot"></span>
+                    </div>
+                    <div class="kolona">
+                      <span class="dot"></span>
+                      <span class="dot"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
                 <div id="UserMoveOptions">
                 </div>
