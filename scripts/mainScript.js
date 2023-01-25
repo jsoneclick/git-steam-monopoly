@@ -218,8 +218,6 @@
         players[currentPlayer].money += 150; 
     });
 
-    
-
     communityChestCard[0] = new ChanceCard("Advance to Start (Collect $200)", function(){
         players[currentPlayer].position = 40; 
     });
@@ -266,16 +264,13 @@
         players[currentPlayer].money -= 100;  
     });
 
-
     for(let i in chanceCard){
         chanceCard[i].id = i;
     }
+
     for(let i in communityChestCard){
         communityChestCard[i].id = i;
     }
-
-
-
 
     table.addEventListener('click', (e) => {
         clickedTile = e.target.id.match(/\d+/g);
@@ -297,16 +292,18 @@
         document.getElementById("TileInfImageBg").style.backgroundImage = `url(\"img/tile_card_images/img_${clickedTile}.jpg\")`;
         document.getElementById("TileNameH").innerHTML = deck.tiles[clickedTile].tileName;
 
+        (deck.tiles[clickedTile].owner) ? document.getElementById("TileOwner").innerHTML = `Current owner: <span style="color:${playerColorsList[players[deck.tiles[clickedTile].owner-1]]}">${players[deck.tiles[clickedTile].owner-1].name}</span>` : document.getElementById("TileOwner").innerHTML = "No current owner";
+        document.getElementById("TileLvl").innerHTML = "Lvl " + deck.tiles[clickedTile].lvl;
+
+
         if(deck.tiles[clickedTile].price !== 0){
             document.getElementById("CardRarity").innerHTML = deck.tiles[clickedTile].rarity.tileRarity +" $" + deck.tiles[clickedTile].price;
-            document.getElementById("SellCard").style.display = "";
-            document.getElementById("OnBailCard").style.display = "";
-            document.getElementById("UpgradeCard").style.display = "";
+            document.getElementById("TileOwner").style.display = "";
+            document.getElementById("TileLvl").style.display = "";
         }else{
             document.getElementById("CardRarity").innerHTML = "Monopoly service card";
-            document.getElementById("SellCard").style.display = "none";
-            document.getElementById("OnBailCard").style.display = "none";
-            document.getElementById("UpgradeCard").style.display = "none";
+            document.getElementById("TileOwner").style.display = "none";
+            document.getElementById("TileLvl").style.display = "none";
         }
 
         document.getElementById("CardRarity").style.color = `${deck.tiles[clickedTile].rarity.rarityColor}`;
@@ -553,6 +550,7 @@
                 document.getElementById(`playerBlock_${i}`).style.backgroundPosition = `center`;
                 document.getElementById(`playerBlock_${i}`).style.borderRight = `5px solid ${playerColorsList[i]}`;
             }
+            bankMoney -= 1500 * playersNumber;
             spawnPlayers();
             
         }
@@ -588,12 +586,14 @@
             }
         
         }
+
         function newCirclePass(){
             players[currentPlayer].position = players[currentPlayer].position - 40; 
             players[currentPlayer].money += 200;
             gameLog.innerHTML += `${players[currentPlayer].name} passed start one more time and gets $200</br></br>`;
             playerMovePosition();
         }
+
         function playerMovePosition(){
             
             switch(players[currentPlayer].position){
@@ -692,15 +692,14 @@
             }
             
         }
-        function gameLogRefresh() {
 
+        function gameLogRefresh() {
             gameLog.innerHTML += `Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span>
             rolled dice ${dice_1} : ${dice_2}</br>`;
-
             gameLog.innerHTML += (`<span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> is going to tile: ${deck.tiles[players[currentPlayer].position].tileName} on ${players[currentPlayer].position} position</br></br>`);
             gameLog.scrollTo(0, gameLog.scrollHeight);
-
         }
+
         function nextPlayer() {
             if(currentPlayer >= playersNumber - 1){ 
                 currentPlayer = 0;
@@ -708,7 +707,6 @@
                 currentPlayer++;
             }
             rollDiceWindow();
-            refrershFullUI();
         }
 
         function playerMove() {
@@ -719,22 +717,26 @@
             gameLogRefresh();
         }
         
-        
-
-
         function buyTileFunction(){
             let currentTile = deck.tiles[players[currentPlayer].position];
             if(players[currentPlayer].money >= currentTile.price){
                 players[currentPlayer].money -= currentTile.price;
                 currentTile.owner = players[currentPlayer].playerId + 1;
                 players[currentPlayer].ownedTiles.push(currentTile.id);
-                gameLog.innerHTML += `${players[currentPlayer].name} owns tile ${currentTile.tileName} owner id ${currentTile.owner}`;
+                gameLog.innerHTML += `<span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> owns tile ${currentTile.tileName} owner id ${currentTile.owner}`;
                 document.getElementById(`boardTile_${players[currentPlayer].position}`).style.border = `5px dashed ${playerColorsList[currentPlayer]}`;
                 nextPlayer();
             }else{
                 gameLog.innerHTML += "not enough money";
                 nextPlayer();
             }
+        }
+
+        function onAuctionFunction(){
+            let currentTile = deck.tiles[players[currentPlayer].position];
+            currentTile.price = Math.floor(currentTile.price * 0.45);
+            alert(`${currentTile.tileName} now is on sale New price ${currentTile.price}!!!`);
+            nextPlayer();
         }
 
         function payRentFunction(){
@@ -746,10 +748,10 @@
                     players[currentPlayer].money -= currentTile.rentPrice[currentTile.lvl - 1];
                     players[currentTile.owner-1].money += currentTile.rentPrice[currentTile.lvl - 1];
                     
-                    gameLog.innerHTML += `${players[currentPlayer].name} obligated 
+                    gameLog.innerHTML += `<span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> obligated 
                     to pay rent ($ ${currentTile.rentPrice[currentTile.lvl - 1]}) 
                     for tile ${currentTile.tileName}
-                    to player ${players[currentTile.owner-1].name}</br></br>`;
+                    to player <span style="color:${playerColorsList[players[currentTile.owner-1]]}">${players[currentTile.owner-1].name}</span></br></br>`;
 
                     nextPlayer();
                 }else{
@@ -801,7 +803,7 @@
 
 
         function checkTile() {
-            gameLog.innerHTML += "Function Checked tile!!!</br></br>";
+            setInterval(refrershFullUI, 1000);
             let currentTile = deck.tiles[players[currentPlayer].position];
             if(currentTile.buyable == true && currentTile.owner == undefined){
                 buyTileWindow();//------------------------------- If player stands on a new tile (can buy or place it on an auction)
@@ -809,11 +811,11 @@
                     payRentWindow();//------------------------------- If player stands on a already bought tile (should pay rent or if not enough money sell his tiles)
             }else if(!currentTile.buyable){
                 switch(players[currentPlayer].position){
-                    case 0:;
+                    case 0: nextPlayer();
                     break;
                     case 10: alert("just visiting");nextPlayer();
                     break;
-                    case 20: alert("casino");nextPlayer();
+                    case 20: casinoWindow();
                     break;
                     case 30: alert("go to jail");nextPlayer();
                     break;
@@ -835,6 +837,7 @@
         }
 
         function rollDiceWindow() {
+            userMoveWindow.style.display = "flex";
             userMoveWindow.innerHTML = `
             <p>Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> time to roll dice!</p>
             <div class="UserMoveOptions-buttons-wrapper">
@@ -853,6 +856,7 @@
                 </div>
                 `;
         }
+        
 
         function payRentWindow() {
             userMoveWindow.innerHTML = `
@@ -866,25 +870,67 @@
 
         function casinoWindow() {
             userMoveWindow.innerHTML = `
-            <p>Youy are on casino
-            </p>
-            <div class="UserMoveOptions-buttons-wrapper"><button onclick="test()">Buy</button><button>Auction</button></div>
+            <h2>
+                Would you like to go to the Casino!
+            </h2>
+            <p>Rules: Roll dice and get 1 of the 6 prises</p>
+            <div class="UserMoveOptions-buttons-wrapper">
+            <button onclick = "casinoRollDiceWindow()">Play</button>or<button onclick = "nextPlayer()">May be next time</button>
+            </div>
             `;
         }
-        let randomChanceCard;
+        let casinoRollPrice = 50;
+
+        const casinoPrises = [
+            "Get 50$",
+            "Double your value",
+            "Lose all",
+            "Jeckpot($400)",
+            "Your next tile wil be with -55% discount",
+            "Tripple your win"
+        ];
+
+        function casinoRollDiceWindow() {
+            userMoveWindow.innerHTML = `
+            <h3>
+                Roll dice and get prises bellow
+            </h3>
+            <ul>
+                <li>${casinoPrises[0]}</li>
+                <li>${casinoPrises[1]}</li>
+                <li>${casinoPrises[2]}</li>
+                <li>${casinoPrises[3]}</li>
+                <li>${casinoPrises[4]}</li>
+                <li>${casinoPrises[5]}</li>
+            </ul>
+            <div class="UserMoveOptions-buttons-wrapper">
+            <input type="text" id="casinoInputer" placeholder="$50"></input>
+            <button onclick = "playCasinoFunction()">Play ($${casinoRollPrice})</button>or<button onclick = "nextPlayer()">May be next time</button>
+            </div>
+            `;
+            setTimeout(function(){
+            const casinoInput = document.getElementById("casinoInputer");
+            casinoInput.value = 50;
+            setInterval(function(){
+                casinoRollPrice = casinoInput.value;
+            }, 500);
+            },500);
+            
+        }
+        
         function chanceCardWindow() {
             randomChanceCard = Math.floor(Math.random()*chanceCard.length);
             userMoveWindow.innerHTML = `
-            <p><span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> got ${chanceCard[randomChanceCard].id} Chance Card</p>
+            <p><span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> got ${chanceCard[randomChanceCard].id + 1} Chance Card</p>
             <p>${chanceCard[randomChanceCard].description}</p>
             <div class="UserMoveOptions-buttons-wrapper"><button onclick="ChanceCardFunction(randomChanceCard)">Ok</button></div>
             `;
         }
-        let randomCommunityChestCard;
+        
         function communityChestCardWindow() {
             randomCommunityChestCard = Math.floor(Math.random()*communityChestCard.length);
             userMoveWindow.innerHTML = `
-            <p><span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> got ${chanceCard[randomChanceCard].id} Community Chest Card</p>
+            <p><span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> got ${communityChestCard[randomCommunityChestCard].id + 1} Community Chest Card</p>
             <p>${communityChestCard[randomCommunityChestCard].description}</p>
             <div class="UserMoveOptions-buttons-wrapper"><button onclick="CommunityChestCardFunction(randomCommunityChestCard)">Ok</button></div>
             `;
@@ -903,12 +949,9 @@
 
         function onAuctionWindow() {
             userMoveWindow.innerHTML = `
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-            laboris nisi ut aliquip ex ea commodo consequat.  
-            </p>
-            <div class="UserMoveOptions-buttons-wrapper"><button onclick="test()">Buy</button><button>Auction</button></div>
+            <p>Place this tile on aution?</p>
+            <p>Current item will be on sale with a -45% discount</p>
+            <div class="UserMoveOptions-buttons-wrapper"><button onclick="onAuctionFunction()">Agree</button>or<button onclick="buyTileFunction()">Buy ($ ${deck.tiles[players[currentPlayer].position].price})</button></div>
             `;
         }
 

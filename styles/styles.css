@@ -358,17 +358,18 @@
         }
         #GameLog {
             position: absolute;
-            height: 70%;
-            width: 70%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            height: 80%;
+            width:20%;
+            top: 50px;
+            right: 50px;
             padding: 30px;
             color: white;
+            background: #00000080;
             font-size: 16px;
             overflow-y: auto;
             z-index: 2;
             transition: .4s;
+            border-radius: 3px;
         }
         #GameLog::-webkit-scrollbar {
             width: 10px;
@@ -385,18 +386,19 @@
             height: auto;
             width: 70%;
             position: absolute;
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             background: #fff;
             border-radius: 3px;
-            top: 30%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             padding: 30px;
             color: #121212;
             z-index: 10;
+            transition: .5s;
         }
         #UserMoveOptions button{
             padding: 5px 10px;
