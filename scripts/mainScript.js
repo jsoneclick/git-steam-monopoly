@@ -1049,3 +1049,4 @@
                 document.getElementById("dice_2").style.transform = `translateZ(-100px) rotateY(-45deg) rotateX(-45deg)`;
             }, 1500);
         };
+        //v.0.5.10
