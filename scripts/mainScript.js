@@ -287,7 +287,6 @@
         boardRotationAngle += 90; 
         document.querySelector(".Table").style.transform = `translate(-50%, -50%) rotateX(0deg) rotateY(0deg) rotateZ(${boardRotationAngle}deg)`;
         document.getElementById("UserMoveOptions").style.transform = `translate(-50%, -50%) rotateX(0deg) rotateY(0deg) rotateZ(${-boardRotationAngle}deg)`;
-        //document.getElementById("GameLog").style.transform = `translate(-50%, -50%) rotateX(0deg) rotateY(0deg) rotateZ(${-boardRotationAngle}deg)`;
     });
 
     function displayTileInformation(){
