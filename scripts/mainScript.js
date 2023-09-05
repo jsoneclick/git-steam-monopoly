@@ -19,6 +19,9 @@
     const tileInfo  = document.querySelector(".TileHoverInformation");
     const userMoveWindow = document.getElementById("UserMoveOptions");
     const gameLog = document.getElementById("GameLog");
+    const closeTileBtn = document.getElementById("closeTileBtn");
+    let x, y;
+    let casinoRollPrice = 50;
 
     const deck = {
         name: "Steam Monopoly",
@@ -314,10 +317,14 @@
         tileInformationImage.setAttribute("src", `img/tile_card_images/img_${clickedTile}.jpg`);
         tileInformationImage.style.border = "none";
         tileInformationImage.style.borderBottom = `5px solid ${deck.tiles[clickedTile].rarity.rarityColor}`;
+        closeTileBtn.style.display = "flex";
     }
+
+closeTileBtn.addEventListener('click', hideTileCardInfo);
 
     function hideTileCardInfo(){
         document.getElementById("TileInformation").style.display = "none";
+        closeTileBtn.style.display = "none";
     }
 
     for (let i = playerColorsList.length - 1; i > 0; i--) {
@@ -392,7 +399,6 @@
             setTimeout(generateTable, 1000);
         }
         prepareButton.addEventListener("click", prepareGame);
-
         function generateTable() {
             const tbl = document.createElement("table");
             tbl.setAttribute('id', 'gameTable');
@@ -496,8 +502,6 @@
                     indexedTileImage.style.top = "0%";
                     indexedTileImage.style.left = "0%";
                 }
-
-                // indexedBoardTile.style.backgroundImage = `url(img/tile_card_images/img_${k}.jpg)`;
             }
 
             let nonBorderTiles = [0, 2, 4, 7, 10, 17, 20, 22, 30, 33, 36];
@@ -537,7 +541,6 @@
             });
             createPlayers();
         }    
-
         function createPlayers(){
             for(let i = 0; i < playersNumber; i++){
                 document.querySelector(".PlayersWrapper").innerHTML += `
@@ -560,7 +563,6 @@
             spawnPlayers();
             
         }
-
         let diceThrow = () => {
             dice1 = Math.floor(Math.random()*6)+1;
             dice2 = Math.floor(Math.random()*6)+1;
@@ -568,7 +570,6 @@
             return currentUserDiceNumber;
             
         }
-
         function spawnPlayers() {
             for(let i = 0; i < playersNumber; i++){
                 playerCircle = document.createElement('div');
@@ -583,7 +584,6 @@
             }
             setTimeout(rollDiceWindow, 2000);
         }
-
         function userChangePosition() {
             if(players[currentPlayer].position >= 40){
                 players[currentPlayer].position = players[currentPlayer].position + currentUserDiceNumber - 40;
@@ -592,14 +592,12 @@
             }
         
         }
-
         function newCirclePass(){
             players[currentPlayer].position = players[currentPlayer].position - 40; 
             players[currentPlayer].money += 200;
             gameLog.innerHTML += `${players[currentPlayer].name} passed start one more time and gets $200</br></br>`;
             playerMovePosition();
         }
-
         function playerMovePosition(){
             
             switch(players[currentPlayer].position){
@@ -698,14 +696,12 @@
             }
             
         }
-
         function gameLogRefresh() {
             gameLog.innerHTML += `Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span>
             rolled dice ${dice1} : ${dice2}</br>`;
             gameLog.innerHTML += (`<span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> is going to tile: ${deck.tiles[players[currentPlayer].position].tileName} on ${players[currentPlayer].position} position</br></br>`);
             gameLog.scrollTo(0, gameLog.scrollHeight);
         }
-
         function nextPlayer() {
             if(currentPlayer >= playersNumber - 1){ 
                 currentPlayer = 0;
@@ -714,7 +710,6 @@
             }
             rollDiceWindow();
         }
-
         function playerMove() {
             userMoveWindow.style.display = "none";
             document.querySelector(".DiceWrapper").style.display = `flex`;
@@ -731,7 +726,6 @@
             }, 1000);
         }, 1000);
         }
-        
         function buyTileFunction(){
             let currentTile = deck.tiles[players[currentPlayer].position];
             if(players[currentPlayer].money >= currentTile.price){
@@ -746,14 +740,12 @@
                 nextPlayer();
             }
         }
-
         function onAuctionFunction(){
             let currentTile = deck.tiles[players[currentPlayer].position];
             currentTile.price = Math.floor(currentTile.price * 0.45);
             alert(`${currentTile.tileName} now is on sale New price ${currentTile.price}!!!`);
             nextPlayer();
         }
-
         function payRentFunction(){
             let currentTile = deck.tiles[players[currentPlayer].position];
             if(players[currentPlayer].position != 12 || players[currentPlayer].position != 28){
@@ -795,7 +787,6 @@
                 }
             }
         }
-
         function incomeTaxWindow() {
             userMoveWindow.innerHTML = `
             <p>Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> stand on Income Tax Tile</p>
@@ -805,7 +796,6 @@
             </div>
             `;
         }
-
         function incomeTaxFunction(){
             if(players[currentPlayer].money >= 200){
                 players[currentPlayer].money -= 200;
@@ -819,8 +809,6 @@
                 nextPlayer();
             }
         }
-
-
         function checkTile() {
             setInterval(refrershFullUI, 1000);
             let currentTile = deck.tiles[players[currentPlayer].position];
@@ -832,7 +820,7 @@
                 switch(players[currentPlayer].position){
                     case 0: nextPlayer();
                     break;
-                    case 10: alert("just visiting");nextPlayer();
+                    case 10: jailWindow();//nextPlayer();
                     break;
                     case 20: casinoWindow();
                     break;
@@ -854,7 +842,6 @@
                 nextPlayer();
             }
         }
-
         function rollDiceWindow() {
             userMoveWindow.style.display = "flex";
             userMoveWindow.innerHTML = `
@@ -864,7 +851,6 @@
             </div>
             `;
         }
-
         function buyTileWindow() {
             userMoveWindow.innerHTML = `
                 <p>Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> stands on tile ${deck.tiles[players[currentPlayer].position].tileName}</p>
@@ -875,8 +861,6 @@
                 </div>
                 `;
         }
-        
-
         function payRentWindow() {
             userMoveWindow.innerHTML = `
             <p>Player <span style="color:${playerColorsList[currentPlayer]}">${players[currentPlayer].name}</span> stands on 
@@ -886,7 +870,6 @@
             <div class="UserMoveOptions-buttons-wrapper"><button onclick="payRentFunction()">Pay rent</button></div>
             `;
         }
-
         function casinoWindow() {
             userMoveWindow.innerHTML = `
             <h2>
@@ -898,8 +881,6 @@
             </div>
             `;
         }
-        let casinoRollPrice = 50;
-
         const casinoPrises = [
             "Get 50$",
             "Double your value",
@@ -908,7 +889,6 @@
             "Your next tile wil be with -55% discount",
             "Tripple your win"
         ];
-
         function casinoRollDiceWindow() {
             userMoveWindow.innerHTML = `
             <h3>
@@ -936,7 +916,6 @@
             },500);
             
         }
-        
         function chanceCardWindow() {
             randomChanceCard = Math.floor(Math.random()*chanceCard.length);
             userMoveWindow.innerHTML = `
@@ -945,7 +924,6 @@
             <div class="UserMoveOptions-buttons-wrapper"><button onclick="ChanceCardFunction(randomChanceCard)">Ok</button></div>
             `;
         }
-        
         function communityChestCardWindow() {
             randomCommunityChestCard = Math.floor(Math.random()*communityChestCard.length);
             userMoveWindow.innerHTML = `
@@ -954,7 +932,6 @@
             <div class="UserMoveOptions-buttons-wrapper"><button onclick="CommunityChestCardFunction(randomCommunityChestCard)">Ok</button></div>
             `;
         }
-
         function onBailTileWindow() {
             userMoveWindow.innerHTML = `
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
@@ -965,7 +942,6 @@
             <div class="UserMoveOptions-buttons-wrapper"><button onclick="test()">Buy</button><button>Auction</button></div>
             `;
         }
-
         function onAuctionWindow() {
             userMoveWindow.innerHTML = `
             <p>Place this tile on aution?</p>
@@ -973,13 +949,11 @@
             <div class="UserMoveOptions-buttons-wrapper"><button onclick="onAuctionFunction()">Agree</button>or<button onclick="buyTileFunction()">Buy ($ ${deck.tiles[players[currentPlayer].position].price})</button></div>
             `;
         }
-
         function refrershFullUI() {
             for(let i = 0; i < playersNumber; i++){
                 document.getElementById(`PlayerMoney_${i}`).innerHTML = `$ ${players[i].money}`;
             }
         }
-
         function ChanceCardFunction(randomChanceCard) {
             chanceCard[randomChanceCard].purpose();
             playerMovePosition();
@@ -993,17 +967,12 @@
 
             //nextPlayer();
         }
-
         function CommunityChestCardFunction(randomCommunityChestCard) {
             communityChestCard[randomCommunityChestCard].purpose();
             playerMovePosition();
             gameLogRefresh();
             nextPlayer();
         }
-
-
-        let x, y;
-
         let diceAnimation = () => {
             switch (dice1) {
             case 1:
@@ -1049,5 +1018,4 @@
             }, 1500);
         };
         //v.0.5.10
-        //one more change
         

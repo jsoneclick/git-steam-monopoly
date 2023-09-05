@@ -306,6 +306,7 @@
         .UIButtons ul {
             list-style-type: none;
         }
+
         .UIButtons ul li{
             float: left;
             background: #00000060;
@@ -318,8 +319,15 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            font-size: 10px;
+            font-size: 15px;
             text-transform: uppercase;
+            cursor: pointer;
+        }
+        .UIButtons ul li:nth-child(1){
+            font-size: 10px;
+        }
+        #closeTileBtn {
+            display: none;
         }
 
         .UIButtons ul li .fa-3d-view {
